@@ -1,0 +1,17 @@
+<configuration>
+    <input>
+        <net-file value="red.sumo.xml"/>
+        <route-files value="rutas.rou.xml"/>       
+    </input>
+    <output>
+        <summary-output value="summary.xml"/>
+    </output>
+    <time>
+        <begin value="0"/>      
+        <end value="3600"/>
+    </time>
+    <gui_only>
+        <start value="true"/>
+    </gui_only>
+</configuration>
+

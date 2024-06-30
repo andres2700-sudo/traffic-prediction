@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación de Tráfico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+    <style>
+        body {
+            margin: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+    <script>
+        // Variable para almacenar la intensidad predicha
+        let predictedIntensity = null;
+
+        function handleSimulateClick() {
+            if (predictedIntensity) {
+                // Mostrar una alerta con el número de vehículos por hora
+                alert(`Generando simulación para ${predictedIntensity} veh/hora`);
+                
+                // Cambiar el action del formulario a "simulate" y enviar el formulario sin validación
+                const form = document.getElementById('trafficForm');
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'simulate';
+                form.appendChild(actionInput);
+                form.submit();
+            } else {
+                alert('Primero debe predecir la intensidad del tráfico');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Simulación de Tráfico</h1>
+    <form id="trafficForm" method="post">
+        <div class="form-group">
+            <label for="scenario">Escenario:</label>
+            <select id="scenario" name="scenario" required>
+                <option value="low">Poco Cargado</option>
+                <option value="medium">Medianamente Cargado</option>
+                <option value="high">Muy Cargado</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="es_fin_de_semana">¿Es fin de semana?</label>
+            <input type="checkbox" id="es_fin_de_semana" name="es_fin_de_semana" value="1">
+        </div>
+        
+        <div class="form-group">
+            <label for="hubo_partido">¿Hay partido?</label>
+            <input type="checkbox" id="hubo_partido" name="hubo_partido" value="1">
+        </div>
+        
+        <div class="form-group">
+            <label for="es_festivo">¿Es festivo?</label>
+            <input type="checkbox" id="es_festivo" name="es_festivo" value="1">
+        </div>
+        
+        <div class="form-group">
+            <label for="mes">Mes:</label>
+            <select id="mes" name="mes" required>
+                <option value="January">Enero</option>
+                <option value="February">Febrero</option>
+                <option value="March">Marzo</option>
+                <option value="April">Abril</option>
+                <option value="May">Mayo</option>
+                <option value="June">Junio</option>
+                <option value="July">Julio</option>
+                <option value="August">Agosto</option>
+                <option value="September">Septiembre</option>
+                <option value="October">Octubre</option>
+                <option value="November">Noviembre</option>
+                <option value="December">Diciembre</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="dia">Día:</label>
+            <select id="dia" name="dia" required>
+                <option value="Monday">Lunes</option>
+                <option value="Tuesday">Martes</option>
+                <option value="Wednesday">Miércoles</option>
+                <option value="Thursday">Jueves</option>
+                <option value="Friday">Viernes</option>
+                <option value="Saturday">Sábado</option>
+                <option value="Sunday">Domingo</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="hora">Hora:</label>
+            <input type="number" id="hora" name="hora" min="0" max="23" required>
+        </div>
+        
+        <button type="submit" name="action" value="predict">Predecir</button>
+        <button type="button" onclick="handleSimulateClick()">Simular</button>
+        <button type="button" onclick="location.href='/reset'">Reiniciar</button>
+    </form>
+
+    {% if prediction %}
+    <h2>{{ prediction }}</h2>
+    {% endif %}
+
+    {% if simulation_summary %}
+    <h2>Resultados de la Simulación (Segundo 3600):</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Parámetro</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for step in simulation_summary %}
+            {% for param, value in step.items() %}
+            <tr>
+                <td>{{ param }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="chart-container">
+        <img src="{{ url_for('static', filename='traffic_plot.png') }}" alt="Gráfico de Vehículos en Movimiento">
+    </div>
+    {% endif %}
+
+    <
+    {% if session.get('predicted_intensity') %}
+    <script>
+        
+        predictedIntensity = "{{ session['predicted_intensity'] }}";
+        console.log("Predicted Intensity:", predictedIntensity); 
+    </script>
+    {% endif %}
+</body>
+</html>

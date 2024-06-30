@@ -1,0 +1,38 @@
+# Diccionarios para las coordenadas cíclicas
+        meses = {
+            "January": (0.5, 0.866), "February": (0.866, 0.5), "March": (1.0, 0),
+            "April": (0.866, -0.5), "May": (0.5, -0.866), "June": (0, -1.0),
+            "July": (-0.5, -0.866), "August": (-0.866, -0.5), "September": (-1.0, 0),
+            "October": (-0.866, 0.5), "November": (-0.5, 0.866), "December": (0, 1.0)
+        }
+        dias = {
+            "Monday": (0.0, 1.0), "Tuesday": (0.782, 0.623), "Wednesday": (0.975, -0.223),
+            "Thursday": (0.434, -0.901), "Friday": (-0.434, -0.901), "Saturday": (-0.975, -0.223),
+            "Sunday": (-0.782, 0.623)
+        }
+
+
+Mes: <select name="mes">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select><br>
+
+Día: <select name="dia">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select><br>
